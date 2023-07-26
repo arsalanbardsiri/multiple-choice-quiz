@@ -23,3 +23,24 @@ WHEN the game is over
 THEN I can save my initials and my score
 ```
 */
+
+//Set up my timer,
+var time_span = document.querySelector('#time');
+var time_left = 5;
+var timer_interval;
+
+
+function start_timer() {
+    timer_interval = setInterval(function(){
+        time_left --;
+        time_span.textContent = time_left;
+
+        if(time_left == 0){
+            clearInterval(timer_interval);
+            return;
+        }
+
+    },1000);
+    
+}
+start_timer();

@@ -61,10 +61,15 @@ var score = 0;
 //?Correct or Wrong
 var feedback_message = document.querySelector("#feedback");
 
+//?Result
+var result_div = document.querySelector("#result");
+
 //Todo: A func to run show_question & start_timer on click event
 
 function start_quiz() {
   question_index = 0;
+  score = 0;
+  result_div.textContent = ""
   time_left = parseInt(initial_time);
   start.style.display = "none";
 
@@ -141,6 +146,7 @@ function end_quiz() {
   clearInterval(timer_interval);
   question_text.textContent = "QUIZ OVER!";
   choices_list.textContent = "";
+  result_div.textContent = `Your score, ${score}`;
 }
 
 //?clickable and functional start button

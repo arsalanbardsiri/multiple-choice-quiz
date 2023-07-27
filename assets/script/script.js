@@ -24,9 +24,42 @@ THEN I can save my initials and my score
 ```
 */
 
-//!Set up my timer, 
+//!Setting up question section,
+
+//Todo, data structure to store questions.
+var questions = [
+  {
+    question: "Question one? (answer is the first choice)",
+    choices: ["one", "two", "three", "four"],
+    answer: "one",
+  },
+  {
+    question: "Question two? (answer is the first choice)",
+    choices: ["one", "two", "three", "four"],
+    answer: "two",
+  },
+  {
+    question: "Question three? (answer is the first choice)",
+    choices: ["one", "two", "three", "four"],
+    answer: "three",
+  },
+];
+
+//!Appearing the q
+var question_index = 0;
+var question_text = document.querySelector("#question");
+
+
+function show_question() {
+    var current = questions[question_index];
+    question_text.textContent = current.question;
+
+}
+show_question();
+
+//!Set up timer,
 var time_span = document.querySelector("#time");
-var initial_time = (time_span.textContent = "5");
+var initial_time = (time_span.textContent = "60");
 var time_left = parseInt(initial_time);
 var timer_interval;
 

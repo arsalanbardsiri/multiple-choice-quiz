@@ -86,7 +86,7 @@ function show_question() {
       choices_list.appendChild(li);
     });
   } else {
-    return;
+    end_quiz();
   }
 }
 
@@ -109,12 +109,21 @@ function check_answer(choice) {
 function start_timer() {
   timer_interval = setInterval(function () {
     time_left--;
-    time_span.textContent = time_left;
-
-    if (time_left === 0) {
-      return;
+    if (time_left <= 0) {
+        clearInterval(timer_interval);
+        end_quiz();
+    }
+    else{
+        time_span.textContent = time_left;
     }
   }, 1000);
+}
+
+//Todo, ending quiz function needed, only returns does not work
+function end_quiz() {
+    clearInterval(timer_interval);
+    question_text.textContent = "QUIZ OVER!";
+    choices_list.textContent = "";    
 }
 
 //?clickable and functional start button

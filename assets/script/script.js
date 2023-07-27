@@ -44,6 +44,7 @@ var questions = [
 ];
 var question_index = 0;
 var question_text = document.querySelector("#question");
+var choices_list = document.querySelector("#choices");
 
 //Todo: storing vars for timer
 var time_span = document.querySelector("#time");
@@ -56,29 +57,35 @@ var start = document.querySelector("#start");
 
 //Todo: A func to run show_question & start_timer on click event
 
-function start_quiz(){
-    question_index = 0;
-    time_left = parseInt(initial_time);
-    start.style.display = "none"
+function start_quiz() {
+  question_index = 0;
+  time_left = parseInt(initial_time);
+  start.style.display = "none";
 
-    time_span.textContent = time_left;
-    show_question();
-    start_timer();
+  time_span.textContent = time_left;
+  show_question();
+  start_timer();
 }
 
-
-//!Appearing the q
+//todo, Appearing the q
 function show_question() {
+  if (question_index < questions.length) {
     var current = questions[question_index];
     question_text.textContent = current.question;
 
+    //?Adding list of choices
+    choices_list.textContent = "";
+    current.choices.forEach((choice) => {
+      var li = document.createElement("li");
+      li.textContent = choice;
+      choices_list.appendChild(li);
+    });
+  } else {
+    return;
+  }
 }
 
-
-
-
-
-//!Set up timer,
+//?Set up timer,
 function start_timer() {
   timer_interval = setInterval(function () {
     time_left--;

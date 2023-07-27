@@ -55,6 +55,9 @@ var timer_interval;
 //?accessing start button on html
 var start = document.querySelector("#start");
 
+//?Track score
+var score = 0;
+
 //Todo: A func to run show_question & start_timer on click event
 
 function start_quiz() {
@@ -78,11 +81,28 @@ function show_question() {
     current.choices.forEach((choice) => {
       var li = document.createElement("li");
       li.textContent = choice;
+      //?Need to check answer
+
       choices_list.appendChild(li);
     });
   } else {
     return;
   }
+}
+
+function check_answer(choice) {
+  var current = questions[question_index];
+  if (choice === current.answer) {
+    score++;
+  } else {
+    time_left -= 10;
+    if (time_left < 0) {
+        time_left = 0;
+    }
+    time_span.textContent = time_left;
+  }
+  current++;
+  show_question();
 }
 
 //?Set up timer,
@@ -91,11 +111,11 @@ function start_timer() {
     time_left--;
     time_span.textContent = time_left;
 
-    if (time_left == 0) {
-      clearInterval(timer_interval);
+    if (time_left === 0) {
       return;
     }
   }, 1000);
 }
 
+//?clickable and functional start button
 start.addEventListener("click", start_quiz);

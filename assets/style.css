@@ -37,6 +37,11 @@ ul {
   padding: 0;
 }
 
+li {
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
 #timer {
   text-align: center;
   font-weight: bold;

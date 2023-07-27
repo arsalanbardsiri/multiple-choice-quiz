@@ -58,6 +58,9 @@ var start = document.querySelector("#start");
 //?Track score
 var score = 0;
 
+//?Correct or Wrong
+var feedback_message = document.querySelector("#feedback");
+
 //Todo: A func to run show_question & start_timer on click event
 
 function start_quiz() {
@@ -90,40 +93,54 @@ function show_question() {
   }
 }
 
+//todo, checking answer
 function check_answer(choice) {
   var current = questions[question_index];
   if (choice === current.answer) {
     score++;
+    feedback("Correct!","green")
   } else {
     time_left -= 10;
     if (time_left < 0) {
-        time_left = 0;
+      time_left = 0;
     }
+    feedback("Wrong! -10 sec","red")
     time_span.textContent = time_left;
   }
   current++;
   show_question();
 }
 
-//?Set up timer,
+//todo, Correct and Wrong message
+function feedback(message, color) {
+  feedback_message.textContent = message;
+  feedback_message.style.color = color;
+
+  setTimeout(() => {
+    feedback_message.textContent = "";
+    feedback_message.style.color = "";
+  }, 1000);
+}
+
+//todo, timer
 function start_timer() {
   timer_interval = setInterval(function () {
     time_left--;
+    //?Timer does not enter negative and ends on 0
     if (time_left <= 0) {
-        clearInterval(timer_interval);
-        end_quiz();
-    }
-    else{
-        time_span.textContent = time_left;
+      clearInterval(timer_interval);
+      end_quiz();
+    } else {
+      time_span.textContent = time_left;
     }
   }, 1000);
 }
 
 //Todo, ending quiz function needed, only returns does not work
 function end_quiz() {
-    clearInterval(timer_interval);
-    question_text.textContent = "QUIZ OVER!";
-    choices_list.textContent = "";    
+  clearInterval(timer_interval);
+  question_text.textContent = "QUIZ OVER!";
+  choices_list.textContent = "";
 }
 
 //?clickable and functional start button

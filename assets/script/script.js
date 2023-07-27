@@ -48,7 +48,7 @@ var choices_list = document.querySelector("#choices");
 
 //Todo: storing vars for timer
 var time_span = document.querySelector("#time");
-var initial_time = (time_span.textContent = "60");
+var initial_time = (time_span.textContent = "20");
 var time_left = parseInt(initial_time);
 var timer_interval;
 
@@ -64,16 +64,24 @@ var feedback_message = document.querySelector("#feedback");
 //?Result
 var result_div = document.querySelector("#result");
 
+//?Save scores
+var initials_form = document.querySelector("#initials-form");
+var initials_input = document.querySelector("#initials");
+
+//?Restart and clear on last page
+var restartButton = document.querySelector("#restart-button");
+var clearButton = document.querySelector("#clear-button");
+
 //Todo: A func to run show_question & start_timer on click event
 
 function start_quiz() {
   question_index = 0;
   score = 0;
-  result_div.textContent = ""
+  result_div.textContent = "";
   time_left = parseInt(initial_time);
-  start.style.display = "none";
-
   time_span.textContent = time_left;
+  start.style.display = "none";
+  initials_form.style.display = "none";
   show_question();
   start_timer();
 }
@@ -89,8 +97,8 @@ function show_question() {
     current.choices.forEach((choice) => {
       var li = document.createElement("li");
       li.textContent = choice;
-      //?Need to check answer
-
+      //?Need to check answer & clickable li elements
+      li.addEventListener("click", () => check_answer(choice));
       choices_list.appendChild(li);
     });
   } else {
@@ -103,16 +111,16 @@ function check_answer(choice) {
   var current = questions[question_index];
   if (choice === current.answer) {
     score++;
-    feedback("Correct!","green")
+    feedback("Correct!", "green");
   } else {
     time_left -= 10;
     if (time_left < 0) {
       time_left = 0;
     }
-    feedback("Wrong! -10 sec","red")
     time_span.textContent = time_left;
+    feedback("Wrong! -10 sec", "red");
   }
-  current++;
+  question_index++;
   show_question();
 }
 
@@ -129,7 +137,7 @@ function feedback(message, color) {
 
 //todo, timer
 function start_timer() {
-  timer_interval = setInterval(function () {
+  timer_interval = setInterval(() => {
     time_left--;
     //?Timer does not enter negative and ends on 0
     if (time_left <= 0) {
@@ -147,7 +155,49 @@ function end_quiz() {
   question_text.textContent = "QUIZ OVER!";
   choices_list.textContent = "";
   result_div.textContent = `Your score, ${score}`;
+  initials_form.style.display = "block";
+  time_span.style.display = "none";
+  //?Need to display restart and clear buttons here
+  show_buttons();
 }
 
-//?clickable and functional start button
+function save_score(event) {
+  event.preventDefault();
+
+  //?Taking care of spaces
+  var initials = initials_input.value.trim();
+  //?Make sure not empty
+  if (initials !== "") {
+    var high_score = JSON.parse(localStorage.getItem("high_score")) || [];
+    high_score.push({ initials, score });
+    localStorage.setItem("high_score", JSON.stringify(high_score));
+    initials_form.style.display = "none";
+
+    //?function needed for listing of stored values, high scores
+    display_score();
+  }
+}
+
+function display_score() {
+  var high_score = JSON.parse(localStorage.getItem("high_score")) || [];
+  var high_score_list = "<h2>High Scores</h2><ul>";
+  high_score.forEach((entry, index) => {
+    high_score_list += `<li> ${index + 1}. ${entry.initials} : ${entry.score}</li>`;
+  });
+  high_score_list += "</ul>";
+  //!Inner html apply the tags as well, but text.Content will not.
+  result_div.innerHTML = high_score_list;
+}
+
+function show_buttons() {
+  restartButton.style.display = "block";
+  clearButton.style.display = "block";
+}
+
+//Todo. Define the restart and clear list buttons
+
+//?clickable and functional buttons
 start.addEventListener("click", start_quiz);
+initials_form.addEventListener("submit", save_score);
+// restart.addEventListener("click", restartQuiz);
+// clear.addEventListener("click", clearScoreboard);

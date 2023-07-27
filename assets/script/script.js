@@ -44,12 +44,27 @@ var questions = [
     answer: "three",
   },
 ];
-
-//!Appearing the q
 var question_index = 0;
 var question_text = document.querySelector("#question");
 
+//Todo: storing vars for timer
+var time_span = document.querySelector("#time");
+var initial_time = (time_span.textContent = "60");
+var time_left = parseInt(initial_time);
+var timer_interval;
 
+
+//Todo: A func to run show_question & start_timer on click event
+
+function start_quiz(){
+    question_index = 0;
+    time_left = parseInt(initial_time);
+    
+    
+}
+
+
+//!Appearing the q
 function show_question() {
     var current = questions[question_index];
     question_text.textContent = current.question;
@@ -57,12 +72,10 @@ function show_question() {
 }
 show_question();
 
-//!Set up timer,
-var time_span = document.querySelector("#time");
-var initial_time = (time_span.textContent = "60");
-var time_left = parseInt(initial_time);
-var timer_interval;
 
+
+
+//!Set up timer,
 function start_timer() {
   timer_interval = setInterval(function () {
     time_left--;

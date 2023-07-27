@@ -24,8 +24,6 @@ THEN I can save my initials and my score
 ```
 */
 
-//!Setting up question section,
-
 //Todo, data structure to store questions.
 var questions = [
   {
@@ -53,14 +51,19 @@ var initial_time = (time_span.textContent = "60");
 var time_left = parseInt(initial_time);
 var timer_interval;
 
+//?accessing start button on html
+var start = document.querySelector("#start");
 
 //Todo: A func to run show_question & start_timer on click event
 
 function start_quiz(){
     question_index = 0;
     time_left = parseInt(initial_time);
-    
-    
+    start.style.display = "none"
+
+    time_span.textContent = time_left;
+    show_question();
+    start_timer();
 }
 
 
@@ -70,7 +73,7 @@ function show_question() {
     question_text.textContent = current.question;
 
 }
-show_question();
+
 
 
 
@@ -87,4 +90,5 @@ function start_timer() {
     }
   }, 1000);
 }
-start_timer();
+
+start.addEventListener("click", start_quiz);

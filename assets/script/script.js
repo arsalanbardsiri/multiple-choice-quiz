@@ -24,7 +24,7 @@ THEN I can save my initials and my score
 ```
 */
 
-//Todo, data structure to store questions.
+//todo, data structure to store questions.
 var questions = [
   {
     question: "Question one? (answer is the first choice)",
@@ -45,16 +45,16 @@ var questions = [
     question: "Question three? (answer is the forth choice)",
     choices: ["one", "two", "three", "four"],
     answer: "four",
-  }
+  },
 ];
 var question_index = 0;
 var question_text = document.querySelector("#question");
 var choices_list = document.querySelector("#choices");
 
-//Todo: storing vars for timer
+//todo: storing vars for timer
 var time_span = document.querySelector("#time");
-var initial_time = (time_span.textContent = "60");
-var time_left = parseInt(initial_time);
+//var initial_time = (time_span.textContent = "60");
+var time_left = 60;
 var timer_interval;
 
 //?accessing start button on html
@@ -77,13 +77,13 @@ var initials_input = document.querySelector("#initials");
 var restart = document.querySelector("#restart-button");
 var clear = document.querySelector("#clear-button");
 
-//Todo: A func to run show_question & start_timer on click event
+//todo: A func to run show_question & start_timer on click event
 
 function start_quiz() {
   question_index = 0;
   score = 0;
   result_div.textContent = "";
-  time_left = parseInt(initial_time);
+  time_left = 60;
   time_span.textContent = time_left;
   initials_form.style.display = "none";
   restart.style.display = "none";
@@ -92,7 +92,7 @@ function start_quiz() {
   start_timer();
 }
 
-//todo, Appearing the q
+//todo, Appearing the question
 function show_question() {
   if (question_index < questions.length) {
     var current = questions[question_index];
@@ -126,6 +126,7 @@ function check_answer(choice) {
     time_span.textContent = time_left;
     feedback("Wrong! -10 sec", "red");
   }
+  //?Going to next question
   question_index++;
   show_question();
 }
@@ -138,7 +139,7 @@ function feedback(message, color) {
   setTimeout(() => {
     feedback_message.textContent = "";
     feedback_message.style.color = "";
-  }, 1000);
+  }, 500);
 }
 
 //todo, timer
@@ -155,7 +156,7 @@ function start_timer() {
   }, 1000);
 }
 
-//Todo, ending quiz function needed, only returns does not work
+//todo, ending quiz function needed, only returns not good
 function end_quiz() {
   clearInterval(timer_interval);
   question_text.textContent = "QUIZ OVER!";
@@ -188,7 +189,9 @@ function display_score() {
   var high_score = JSON.parse(localStorage.getItem("high_score")) || [];
   var high_score_list = "<h2>High Scores</h2><ul>";
   high_score.forEach((entry, index) => {
-    high_score_list += `<li> ${index + 1}. ${entry.initials} : ${entry.score}</li>`;
+    high_score_list += `<li> ${index + 1}. ${entry.initials} : ${
+      entry.score
+    }</li>`;
   });
   high_score_list += "</ul>";
   //!Inner html apply the tags as well, but text.Content will not.
@@ -196,18 +199,17 @@ function display_score() {
   start.style.display = "none";
 }
 
-
 function show_buttons() {
   restart.style.display = "block";
   clear.style.display = "block";
 }
 
-//Todo. Define the restart and clear list buttons
+//todo. Define the restart and clear list buttons
 function restart_quiz() {
   question_index = 0;
   score = 0;
   result_div.textContent = "";
-  time_left = parseInt(initial_time);
+  time_left = 60;
   time_span.textContent = time_left;
   initials_form.style.display = "none";
   clearInterval(timer_interval);
@@ -222,7 +224,6 @@ function clear_board() {
 //?clickable and functional buttons
 start.addEventListener("click", start_quiz);
 initials_form.addEventListener("submit", save_score);
-
 
 restart.addEventListener("click", restart_quiz);
 clear.addEventListener("click", clear_board);

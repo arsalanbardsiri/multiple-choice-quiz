@@ -32,15 +32,20 @@ var questions = [
     answer: "one",
   },
   {
-    question: "Question two? (answer is the first choice)",
+    question: "Question two? (answer is the second choice)",
     choices: ["one", "two", "three", "four"],
     answer: "two",
   },
   {
-    question: "Question three? (answer is the first choice)",
+    question: "Question three? (answer is the third choice)",
     choices: ["one", "two", "three", "four"],
     answer: "three",
   },
+  {
+    question: "Question three? (answer is the forth choice)",
+    choices: ["one", "two", "three", "four"],
+    answer: "four",
+  }
 ];
 var question_index = 0;
 var question_text = document.querySelector("#question");
@@ -48,7 +53,7 @@ var choices_list = document.querySelector("#choices");
 
 //Todo: storing vars for timer
 var time_span = document.querySelector("#time");
-var initial_time = (time_span.textContent = "20");
+var initial_time = (time_span.textContent = "60");
 var time_left = parseInt(initial_time);
 var timer_interval;
 
@@ -69,8 +74,8 @@ var initials_form = document.querySelector("#initials-form");
 var initials_input = document.querySelector("#initials");
 
 //?Restart and clear on last page
-var restartButton = document.querySelector("#restart-button");
-var clearButton = document.querySelector("#clear-button");
+var restart = document.querySelector("#restart-button");
+var clear = document.querySelector("#clear-button");
 
 //Todo: A func to run show_question & start_timer on click event
 
@@ -80,8 +85,9 @@ function start_quiz() {
   result_div.textContent = "";
   time_left = parseInt(initial_time);
   time_span.textContent = time_left;
-  start.style.display = "none";
   initials_form.style.display = "none";
+  restart.style.display = "none";
+  clear.style.display = "none";
   show_question();
   start_timer();
 }
@@ -156,7 +162,7 @@ function end_quiz() {
   choices_list.textContent = "";
   result_div.textContent = `Your score, ${score}`;
   initials_form.style.display = "block";
-  time_span.style.display = "none";
+  start.style.display = "none";
   //?Need to display restart and clear buttons here
   show_buttons();
 }
@@ -187,17 +193,36 @@ function display_score() {
   high_score_list += "</ul>";
   //!Inner html apply the tags as well, but text.Content will not.
   result_div.innerHTML = high_score_list;
+  start.style.display = "none";
 }
 
+
 function show_buttons() {
-  restartButton.style.display = "block";
-  clearButton.style.display = "block";
+  restart.style.display = "block";
+  clear.style.display = "block";
 }
 
 //Todo. Define the restart and clear list buttons
+function restart_quiz() {
+  question_index = 0;
+  score = 0;
+  result_div.textContent = "";
+  time_left = parseInt(initial_time);
+  time_span.textContent = time_left;
+  initials_form.style.display = "none";
+  clearInterval(timer_interval);
+  start_quiz();
+}
+
+function clear_board() {
+  localStorage.removeItem("high_score");
+  display_score();
+}
 
 //?clickable and functional buttons
 start.addEventListener("click", start_quiz);
 initials_form.addEventListener("submit", save_score);
-// restart.addEventListener("click", restartQuiz);
-// clear.addEventListener("click", clearScoreboard);
+
+
+restart.addEventListener("click", restart_quiz);
+clear.addEventListener("click", clear_board);

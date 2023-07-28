@@ -42,7 +42,7 @@ var questions = [
     answer: "three",
   },
   {
-    question: "Question three? (answer is the forth choice)",
+    question: "Question four? (answer is the forth choice)",
     choices: ["one", "two", "three", "four"],
     answer: "four",
   },
@@ -149,6 +149,7 @@ function start_timer() {
     //?Timer does not enter negative and ends on 0
     if (time_left <= 0) {
       clearInterval(timer_interval);
+      time_span.textContent = 0; // Set time_left to 0 explicitly
       end_quiz();
     } else {
       time_span.textContent = time_left;
